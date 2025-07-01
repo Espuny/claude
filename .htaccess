@@ -1,0 +1,16 @@
+RewriteEngine On
+
+# Evitar que se ejecute directamente el archivo .htaccess
+<Files ".htaccess">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Redireccionar todas las peticiones que no sean archivos o directorios al index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
+
+# Opcional: Redirigir de index.php al directorio raíz si se accede directamente
+RewriteCond %{THE_REQUEST} /index\.php[?\s] [NC]
+RewriteRule ^index\.php$ / [R=301,L]
